@@ -1,4 +1,4 @@
-from lib.nsapi import NSApi
+from nsapi import NSApi
 
 
 def main():
