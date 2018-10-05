@@ -1,11 +1,9 @@
+import config
 from nsapi import NSApi
 
 
 def main():
-    username = ""
-    password = ""
-
-    api = NSApi(username, password)
+    api = NSApi(config.NSAPI_USERNAME, config.NSAPI_PASSWORD)
 
     # Load stations
     stations = api.get_stations()
