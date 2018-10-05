@@ -7,7 +7,14 @@ def main():
 
     api = NSApi(username, password)
 
-    print(api.actuele_vertrektijden("Utrecht"))
+    # Load stations
+    stations = api.get_stations()
+
+    print("Loaded {} stations".format(len(stations)))
+
+    # Test
+    # print(api.actuele_vertrektijden("Utrecht"))
+    # print(api.reisplanner("Utrecht", "Amersfoort"))
 
 
 if __name__ == "__main__":
