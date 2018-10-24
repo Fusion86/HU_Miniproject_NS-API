@@ -3,7 +3,7 @@ from nsapi import NSApi
 from tkinter import *
 from tkinter import messagebox, ttk
 import dateutil.parser
-
+from PIL import ImageTk, Image
 
 def get_time_string(str):
     dt = dateutil.parser.parse(str)
@@ -28,8 +28,23 @@ class App:
         root.resizable(False, False)  # Disable window resizing
 
         # Start frame setup
-        frame_start = Frame(root, width=1024, height=768)
-        Label(frame_start, text="Welkom bij NS").place(x=307, y=143)
+        frame_start = Frame(root, width=1024, height=768, background='#FED900')
+        Label(frame_start, text="Welkom bij NS", foreground='#002A90', background='#FED900', font=('Tahoma', 48)).place(
+            x=307, y=143)
+
+        Button(frame_start, text='Ik heb geen\nOV-chipkaart', foreground='white', background='#002A90',
+               font=('Tahoma', 14)).place(x=222, y=545)
+
+        Button(frame_start, text='Ik wil naar\nhet buitenland', foreground='white', background='#002A90',
+               font=('Tahoma', 14)).place(x=442, y=545)
+
+        Button(frame_start, text='Toon de\nvertrektijden', foreground='white', background='#002A90',
+               font=('Tahoma', 14)).place(x=662, y=545)
+
+        img = ImageTk.PhotoImage(Image.open('assets/chipkaart.png'))
+        Label(frame_start,image=img).place(x=262, y=240)
+
+
 
         frame_start.pack()
 
