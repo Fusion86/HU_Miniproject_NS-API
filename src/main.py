@@ -27,30 +27,47 @@ class App:
         root.title("NS Miniproject")
         root.resizable(False, False)  # Disable window resizing
 
-        Label(root, text="Begin station").grid(row=0, sticky="w")
-        Label(root, text="Eind station").grid(row=1, sticky="w")
+        # Start frame setup
+        frame_start = Frame(root, width=1024, height=768)
+        Label(frame_start, text="Welkom bij NS").place(x=307, y=143)
 
-        self.txtBeginStation = Entry(root)
-        self.txtBeginStation.insert(0, "Utrecht Centraal")
-        self.txtBeginStation.grid(row=0, column=1)
+        frame_start.pack()
 
-        self.txtEindStation = Entry(root)
-        self.txtEindStation.grid(row=1, column=1)
+        # Main frame setup
+        frame_main = Frame(root)
 
-        self.btnUpdate = Button(root, text="Update", command=self.update)
-        self.btnUpdate.grid(row=0, column=2, rowspan=2)
+        frame_main.pack()
 
-        ttk.Separator(root, orient=HORIZONTAL).grid(row=2, columnspan=5, sticky="ew")
+        self.frame_start = frame_start
+        self.frame_main = frame_main
 
-        # Add rows (count = self.stations_to_show)
-        start_row = 2
-        for i in range(self.stations_to_show):
-            lbl = Label(root)
-            lbl.grid(row=start_row + i + 1, sticky="w")  # +1 because we start at zero
-            setattr(self, "lblVertrekTijd{}".format(i), lbl)
+        # Show start frame
+        frame_main.tkraise()
 
-        # Show times for default station Utrecht Centraal
-        self.update()
+        # Label(root, text="Begin station").grid(row=0, sticky="w")
+        # Label(root, text="Eind station").grid(row=1, sticky="w")
+
+        # self.txtBeginStation = Entry(root)
+        # self.txtBeginStation.insert(0, "Utrecht Centraal")
+        # self.txtBeginStation.grid(row=0, column=1)
+
+        # self.txtEindStation = Entry(root)
+        # self.txtEindStation.grid(row=1, column=1)
+
+        # self.btnUpdate = Button(root, text="Update", command=self.update)
+        # self.btnUpdate.grid(row=0, column=2, rowspan=2)
+
+        # ttk.Separator(root, orient=HORIZONTAL).grid(row=2, columnspan=5, sticky="ew")
+
+        # # Add rows (count = self.stations_to_show)
+        # start_row = 2
+        # for i in range(self.stations_to_show):
+        #     lbl = Label(root)
+        #     lbl.grid(row=start_row + i + 1, sticky="w")  # +1 because we start at zero
+        #     setattr(self, "lblVertrekTijd{}".format(i), lbl)
+
+        # # Show times for default station Utrecht Centraal
+        # self.update()
 
     def update(self):
         """Load input from Entries and update lblVertrekTijd_ with new info"""
