@@ -1,2 +1,3 @@
-NSAPI_USERNAME = "mail@example.com"
-NSAPI_PASSWORD = "passowrd"
+NSAPI_USERNAME = ""
+NSAPI_PASSWORD = ""
+OPENWEATHERMAPP_APPID = ""

@@ -1,4 +1,5 @@
 import config
+import weather
 from nsapi import NSApi
 from tkinter import *
 from tkinter import messagebox, ttk
@@ -14,6 +15,7 @@ def get_time_string(str):
 class App:
     # Config
     stations_to_show = 5
+    location = "Utrecht"
 
     def __init__(self, root):
         # Setup NSApi
@@ -30,6 +32,7 @@ class App:
 
         # Start frame setup
         frame_start = Frame(root, width=1024, height=768, background="#FED900")
+
         Label(
             frame_start,
             text="Welkom bij NS",
@@ -63,6 +66,17 @@ class App:
             command=self.show_main,
         ).place(x=662, y=545)
 
+        # Weather
+        Label(
+            frame_start,
+            text="Het is {}°C in {}".format(
+                weather.get_temperature(self.location), self.location
+            ),
+            foreground="#002A90",
+            background="#FED900",
+            font=("Tahoma", 12),
+        ).place(x=10, y=10)
+
         # Load image and keep reference so that the GC doesn't delete it
         img = ImageTk.PhotoImage(Image.open("src/assets/chipkaart.png"))
         frame_start._img_chipkaart = img
@@ -92,6 +106,7 @@ class App:
             foreground="white",
             font=("Tahoma", 28),
         ).place(x=20, y=20)
+
         Label(
             frame_main,
             text="Eindstation",
