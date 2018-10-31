@@ -19,6 +19,11 @@ class NSApi:
 
         # GET data and parse into xmldict
         response = requests.get(self.api_url_stationslist, auth=self.auth_details)
+
+        # Check if successful
+        if response.status_code != 200:
+            raise Exception("NSApi Error")
+
         xmldict = xmltodict.parse(response.text)
 
         # Create list
@@ -36,6 +41,11 @@ class NSApi:
 
         # Request and return data in dict
         response = requests.get(self.api_url_reisplanner, auth=self.auth_details, params=data)
+        
+        # Check if successful
+        if response.status_code != 200:
+            raise Exception("NSApi Error")
+        
         return xmltodict.parse(response.text)
 
     def actuele_vertrektijden(self, station):
@@ -44,4 +54,9 @@ class NSApi:
 
         # Request and return data in dict
         response = requests.get(self.api_url_avt, auth=self.auth_details, params=data)
+        
+        # Check if successful
+        if response.status_code != 200:
+            raise Exception("NSApi Error")
+
         return xmltodict.parse(response.text)
