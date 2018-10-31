@@ -63,11 +63,16 @@ class App:
             command=self.show_main,
         ).place(x=662, y=545)
 
+        # Load image and keep reference so that the GC doesn't delete it
         img = ImageTk.PhotoImage(Image.open("src/assets/chipkaart.png"))
-        frame_start._img_chipkaart = (
-            img
-        )  # Keep reference so that the GC doesn't delete it
-        Label(frame_start, image=img).place(x=262, y=240)
+        frame_start._img_chipkaart = img
+
+        # Draw image on canvas
+        canvas = Canvas(
+            frame_start, bg="#FED900", width=424, height=225, bd=0, highlightthickness=0
+        )
+        canvas.place(x=310, y=240)
+        canvas.create_image(424 / 2, 225 / 2, image=img)
 
         frame_start.grid(row=0, column=0, sticky="nsew")
 
@@ -96,11 +101,11 @@ class App:
         ).place(x=20, y=104)
 
         self.txtBeginStation = Entry(frame_main)
-        self.txtBeginStation.place(x=308, y=20)
+        self.txtBeginStation.place(x=308, y=35)
         self.txtBeginStation.insert(0, "Utrecht Centraal")
 
         self.txtEindStation = Entry(frame_main)
-        self.txtEindStation.place(x=308, y=104)
+        self.txtEindStation.place(x=308, y=120)
 
         Button(
             frame_main,
@@ -165,9 +170,9 @@ class App:
             text="Terug",
             background="#002A90",
             foreground="white",
-            font=("Tahoma", 28),
+            font=("Tahoma", 20),
             command=self.show_start,
-        ).place(x=81, y=702)
+        ).place(x=20, y=702)
 
         frame_main.grid(row=0, column=0, sticky="nsew")
 
@@ -197,25 +202,30 @@ class App:
             return
 
         if hasEindStation:
-            pass
+            route = self.api.reisplanner(beginstation, eindstation)
+            routedict = route["ReisMogelijkheden"]["ReisMogelijkheid"]
+
+            for i in range(self.stations_to_show):
+                self.set_text(
+                    "lblVertrekTijd{}".format(i),
+                    get_time_string(routedict[i]["ActueleVertrekTijd"]),
+                )
+
+                self.set_text("lblBestemming{}".format(i), eindstation)
+
+                # Shows VervoerType for first ReisDeel, there could be more but we only show the first
+                self.set_text(
+                    "lblType{}".format(i), routedict[i]["ReisDeel"]["VervoerType"]
+                )
         else:
             avt = self.api.actuele_vertrektijden(beginstation)
             avtdict = avt["ActueleVertrekTijden"]["VertrekkendeTrein"]
 
             for i in range(self.stations_to_show):
-                # txt = "{} - {}".format(
-                #     get_time_string(avtdict[i]["VertrekTijd"]),
-                #     avtdict[i]["EindBestemming"],
-                # )
                 self.set_text(
                     "lblVertrekTijd{}".format(i),
                     get_time_string(avtdict[i]["VertrekTijd"]),
                 )
-
-                # self.set_text(
-                #     "lblAankomstTijd{}".format(i),
-                #     get_time_string(avtdict[i]["AankomstTijd"]),
-                # )
 
                 self.set_text("lblBestemming{}".format(i), avtdict[i]["EindBestemming"])
 
